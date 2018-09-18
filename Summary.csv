@@ -1,0 +1,15 @@
+Class ID;Class Name;Frequenzy;Avg Xmin;Avg Ymin;Avg Xmax;Avg Ymax
+84;traffic jam (digital) (danger);99;126.49;59.7;137.79;64.27
+8;speed limit 100 (prohibitory);11;212.55;112.0;228.45;125.73
+25;road narrows (danger);41;250.83;133.0;270.85;151.46
+85;highway exit (other);88;25.6;16.34;27.83;18.18
+86;traffic jam (other);91;28.58;23.07;32.57;25.4
+9;speed limit 120 (prohibitory);17;352.12;177.29;369.53;193.12
+57;minimum truck distance (prohibitory);59;44.83;18.36;46.39;21.27
+58;highway exit 200 (other);64;83.56;41.0;86.27;46.36
+7;restriction ends 80 (other);10;236.1;129.0;252.9;146.6
+5;speed limit 70 (prohibitory);8;298.62;173.38;315.0;190.25
+54;highway turn (left) (other);60;80.07;36.0;83.85;39.83
+3;speed limit 50 (prohibitory);20;524.8;302.6;559.65;334.9
+13;priority road (other);17;252.59;108.76;263.12;119.35
+60;right lane merging (other);252;478.0;306.23;492.98;342.78
