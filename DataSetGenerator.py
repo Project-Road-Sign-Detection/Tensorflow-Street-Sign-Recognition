@@ -2,7 +2,7 @@ import sys
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QDir, Qt
-import GenerateDataSet
+from Generator import Generator
 
 class DSGView(QWidget):
 
@@ -48,7 +48,7 @@ class DSGView(QWidget):
         self.tree_view.setVisible(True)
 
     def on_dataset(self):
-        self.generator = GenerateDataSet.DataSetGenerator(self.directory)
+        self.generator = Generator(self.directory)
         print(self.generator.__class__)
         self.generator.createDataSetZIP()
 

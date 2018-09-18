@@ -16,7 +16,7 @@ import pandas as pd
 # In[28]:
 
 
-class DataSetGenerator():
+class Generator():
     
     def __init__(self, path, classes=range(1, 156)):
         self.classes = classes
