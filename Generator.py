@@ -69,15 +69,17 @@ class Generator():
         
         self.class_score = self._calculateClassScore()
         
-        
-    def deleteEmptyImages(self):
-        for p, dirs, filenames in os.walk(self.PATH):
+    def deleteEmptyImages(self, path = None):
+        if not path:
+            path = self.PATH
+
+        for p, dirs, filenames in os.walk(path):
             for file in [f for f in filenames if f[-3:]=='png']:
                 if file[:-3]+'xml' not in self.label_names:
                     os.remove(os.path.join(p,file))
                     print("%i deleted due to missing label!" %(os.path.join(p,file)))
-                    
-    def _calculateClassScore(self):
+
+    def _calculateClassScore(self,):
         class_score = {}
         
         for label in self.label_paths:
