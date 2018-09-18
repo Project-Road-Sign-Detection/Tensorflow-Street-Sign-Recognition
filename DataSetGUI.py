@@ -37,7 +37,7 @@ class DSGView(QWidget):
         self.delete_images_btn = QPushButton("Leere Bilder löschen")
         self.delete_images_btn.setEnabled(False)
         self.delete_images_btn.clicked.connect(self.on_delete_img)
-        self.grid.addWidget(self.delete_images_btn, 3, 1)
+        self.grid.addWidget(self.delete_images_btn, 3, 0)
 
         self.setLayout(self.grid)
         self.setGeometry(300, 300, 700, 350)

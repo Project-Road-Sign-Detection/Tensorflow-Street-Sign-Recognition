@@ -114,15 +114,15 @@ class Generator():
         
     def createCSVOverview(self, zipf = None):
                 
-        with open("Summary.csv", 'w', newline='') as out:
-            writer = csv.writer(out, delimiter=';', quoting=csv.QUOTE_NONE)
+        with open(os.path.join(self.PATH,"Summary.csv"), 'w', newline='') as out:
+            writer = csv.writer(out, delimiter=',', quoting=csv.QUOTE_NONE)
             writer.writerow(['Class ID','Class Name','Frequenzy','Avg Xmin','Avg Ymin','Avg Xmax','Avg Ymax'])
             for c in self.class_score:
                 if c in self.classes:
                     writer.writerow([c, self._getClassName(c), *self.class_score[c]])
                     
         if zipf:
-            zipf.write(os.path.join(self.PATH, 'Summary.csv'), os.path.join(self.PATH,'Summary.csv'), zipfile.ZIP_DEFLATED)
+            zipf.write(os.path.join(self.PATH, 'Summary.csv'), 'Summary.csv', zipfile.ZIP_DEFLATED)
             os.remove(os.path.join(self.PATH, 'Summary.csv'))
         print("CSV Overview successfully created.")
                 
@@ -160,18 +160,23 @@ class Generator():
         with zipfile.ZipFile(os.path.join(self.PATH,"DataSet.zip"),'w') as zip_file:
             
             for label in self.label_paths:
-                xml = label.split("\\")[-1]
+                xml = label.split(os.path.sep)[-1]
                 img = xml[:-3]+"png"
                     
                 for ob in ET.parse(label).getroot().iter('object'):
                     c = int(ob.find('name').text)
                     if c in self.classes:
-                        zip_file.write(label, "Labels\\"+xml, zipfile.ZIP_DEFLATED)
+                        img_added = []
+                        zip_file.write(label, os.path.join('Labels', xml), zipfile.ZIP_DEFLATED)
                         for p, dirs, files in os.walk(self.PATH):
-                            if img in files: 
-                                zip_file.write(os.path.join(p,img), "Images\\"+img, zipfile.ZIP_DEFLATED)
-                                break
+                            if img in files:
+                                if img not in img_added:
+                                    zip_file.write(os.path.join(p,img), os.path.join("Images",img), zipfile.ZIP_DEFLATED)
+                                    img_added.append(img)
+                                else:
+                                    break
                         break
+
             self.createPieChart(zip_file)
             self.createCSVOverview(zip_file)
             self.createCSVLabelMap(zip_file)
@@ -199,9 +204,9 @@ class Generator():
                     xml_list.append(value)  
         column_name = ['filename', 'width', 'height', 'class', 'xmin', 'ymin', 'xmax', 'ymax']
         xml_df = pd.DataFrame(xml_list, columns=column_name)
-        xml_df.to_csv('labels.csv', index=None)
+        xml_df.to_csv(os.path.join(self.PATH,'train.csv'), index=None)
                             
         if zipf:
-            zipf.write(os.path.join(self.PATH,'labels.csv'),'labels.csv', zipfile.ZIP_DEFLATED)
-            os.remove(os.path.join(self.PATH,'labels.csv'))
+            zipf.write(os.path.join(self.PATH,'train.csv'),'labels.csv', zipfile.ZIP_DEFLATED)
+            os.remove(os.path.join(self.PATH,'train.csv'))
         print("Label CSV successfully created.")
