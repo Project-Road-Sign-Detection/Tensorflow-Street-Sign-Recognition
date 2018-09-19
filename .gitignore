@@ -1,5 +1,5 @@
 .pyc
 venv/
-.idea/
+.idea
 .xml
 .iml
