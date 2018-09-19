@@ -1,0 +1,5 @@
+.pyc
+venv/
+.idea/
+.xml
+.iml
