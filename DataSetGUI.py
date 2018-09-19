@@ -3,12 +3,13 @@ import sys, os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QDir, Qt
 from Generator import Generator
-
+from GuiLogger import  GuiLogger
 
 class DSGView(QWidget):
 
     def __init__(self):
         self.selectedPathes = []
+        self.logger = GuiLogger(self)
         super().__init__()
         self.generator = None
         self.directory = ""
@@ -88,6 +89,7 @@ class DSGView(QWidget):
                 if os.path.isdir(p):
                     self.generator = Generator(p)
                     self.generator.createDataSetZIP()
+                    self.logger.log(p+"/Dataset.zip erstellt.")
         else:
             self.generator = Generator(self.directory)
             self.generator.createDataSetZIP()
@@ -123,15 +125,19 @@ class DSGView(QWidget):
                         self.generator = Generator(p)
                         if item != choices[1]:
                             self.generator.createPieChart()
+                            self.logger.log(p+"/Class Distribution.png erstellt!")
                         if item != choices[0]:
                             self.generator.createCSVOverview()
+                            self.logger.log(p + "/Summary.csv erstellt!")
 
             else:
                 self.generator = Generator(self.directory)
                 if item != choices[1]:
                     self.generator.createPieChart()
+                    self.logger.log(self.directory + "/Class Distribution.png erstellt!")
                 if item != choices[0]:
                     self.generator.createCSVOverview()
+                    elf.logger.log(self.directory + "/Summary.csv erstellt!")
 
     def on_create_train(self):
         msg = ""
@@ -140,14 +146,12 @@ class DSGView(QWidget):
                 if os.path.isdir(p):
                     self.generator = Generator(p)
                     self.generator.createCSVLabelMap()
-                    msg+= p + '/train.csv wurde erstellt.\n'
+                    self.logger.log(p+'/train.csv wurde erstellt.')
         else:
             self.generator = Generator(self.directory)
             self.generator.createCSVLabelMap()
-            msg = p + '/train.csv wurde erstellt.'
+            self.logger.log(self.directory+'/train.csv wurde erstellt.')
 
-        self.error.setText(msg)
-        self.error.setStyleSheet('color: green')
 
     def getItems(self):
         selected = self.tree_view.selectionModel().selectedIndexes()
@@ -164,6 +168,7 @@ class DSGView(QWidget):
         self._update_path(self.directory)
         self.selectedPathes = []
         self.tree_view.clearSelection()
+        self.logger.clear()
 
     def on_navi_up(self):
         self.directory = '/'.join(self.directory.split('/')[:-1])
