@@ -29,6 +29,7 @@ class DSGView(QWidget):
         self.file_model = QFileSystemModel()
         self.tree_view = QTreeView()
         self.tree_view.setModel(self.file_model)
+        self.tree_view.setStyleSheet('color: black')
         self.tree_view.setSelectionMode(QAbstractItemView.MultiSelection)
         self.tree_view.selectionModel().selectionChanged.connect(self.getItems)
         self.tree_view.doubleClicked.connect(self.on_double_click)
@@ -137,7 +138,7 @@ class DSGView(QWidget):
                     self.logger.log(self.directory + "/Class Distribution.png erstellt!")
                 if item != choices[0]:
                     self.generator.createCSVOverview()
-                    elf.logger.log(self.directory + "/Summary.csv erstellt!")
+                    self.logger.log(self.directory + "/Summary.csv erstellt!")
 
     def on_create_train(self):
         msg = ""

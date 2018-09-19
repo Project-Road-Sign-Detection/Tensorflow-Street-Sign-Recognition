@@ -21,4 +21,4 @@ class GuiLogger:
         self.view.error.append(ts+" "+msg)
 
     def clear(self):
-        self.view.error.setText()
+        self.view.error.setText("")
