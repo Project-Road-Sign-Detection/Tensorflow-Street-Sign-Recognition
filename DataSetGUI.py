@@ -39,6 +39,7 @@ class DSGView(QWidget):
         self.error = QTextEdit()
         self.error.setLineWrapColumnOrWidth(200)
         self.error.setMaximumHeight(50)
+        self.error.setStyleSheet('font-size: 9px;')
         self.error.setLineWrapMode(QTextEdit.FixedColumnWidth)
         self.grid.addWidget(self.error, 7, 2, 1, 5)
 
@@ -88,11 +89,10 @@ class DSGView(QWidget):
         if self.selectedPathes:
             for p in self.selectedPathes:
                 if os.path.isdir(p):
-                    self.generator = Generator(p)
+                    self.generator = Generator(p, self.logger)
                     self.generator.createDataSetZIP()
-                    self.logger.log(p+"/Dataset.zip erstellt.")
         else:
-            self.generator = Generator(self.directory)
+            self.generator = Generator(self.directory, self.logger)
             self.generator.createDataSetZIP()
 
     def on_delete_img(self):
@@ -101,10 +101,10 @@ class DSGView(QWidget):
         if self.selectedPathes:
             for p in self.selectedPathes:
                 if os.path.isdir(p):
-                    self.generator = Generator(p)
+                    self.generator = Generator(p,self.logger)
                     deleted += self.generator.deleteEmptyImages()
         else:
-            self.generator = Generator(self.directory)
+            self.generator = Generator(self.directory, self.logger)
             deleted+=self.generator.deleteEmptyImages()
 
         if deleted:
@@ -123,35 +123,29 @@ class DSGView(QWidget):
             if self.selectedPathes:
                 for p in self.selectedPathes:
                     if os.path.isdir(p):
-                        self.generator = Generator(p)
+                        self.generator = Generator(p,self.logger)
                         if item != choices[1]:
                             self.generator.createPieChart()
-                            self.logger.log(p+"/Class Distribution.png erstellt!")
                         if item != choices[0]:
                             self.generator.createCSVOverview()
-                            self.logger.log(p + "/Summary.csv erstellt!")
 
             else:
-                self.generator = Generator(self.directory)
+                self.generator = Generator(self.directory,self.logger)
                 if item != choices[1]:
                     self.generator.createPieChart()
-                    self.logger.log(self.directory + "/Class Distribution.png erstellt!")
                 if item != choices[0]:
                     self.generator.createCSVOverview()
-                    self.logger.log(self.directory + "/Summary.csv erstellt!")
 
     def on_create_train(self):
         msg = ""
         if self.selectedPathes:
             for p in self.selectedPathes:
                 if os.path.isdir(p):
-                    self.generator = Generator(p)
+                    self.generator = Generator(p,self.logger)
                     self.generator.createCSVLabelMap()
-                    self.logger.log(p+'/train.csv wurde erstellt.')
         else:
-            self.generator = Generator(self.directory)
+            self.generator = Generator(self.directory,self.logger)
             self.generator.createCSVLabelMap()
-            self.logger.log(self.directory+'/train.csv wurde erstellt.')
 
 
     def getItems(self):

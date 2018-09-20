@@ -5,11 +5,12 @@ import numpy as np
 import csv
 import zipfile
 import pandas as pd
-
+from GuiLogger import GuiLogger
 
 class Generator():
 
-    def __init__(self, path, classes=range(1, 156)):
+    def __init__(self, path, logger: GuiLogger,  classes=range(1, 156)):
+        self.logger = logger
         self.classes = classes
         self.labelmap = {0: "speed limit 20 (prohibitory)",
                          1: "speed limit 30 (prohibitory)",
@@ -178,16 +179,20 @@ class Generator():
         self.class_score = self._calculateClassScore()
 
     def deleteEmptyImages(self, path=None):
+        self.logger.log_sep("Bilder löschen")
         if not path:
             path = self.PATH
-        deleted = []
+        d = 1
         for p, dirs, filenames in os.walk(path):
             for file in [f for f in filenames if f[-3:] == 'png']:
                 if file[:-3] + 'xml' not in self.label_names:
                     os.remove(os.path.join(p, file))
-                    if file not in deleted:
-                        deleted.append(file)
-        return deleted
+                    self.logger.log(os.path.join(p, file) + " gelöscht.")
+                    d = 0
+        if d:
+            self.logger.log("Keine Bilder ohne Label gefunden.")
+
+        self.logger.log_sep()
 
     def _calculateClassScore(self, ):
         class_score = {}
@@ -195,18 +200,20 @@ class Generator():
         for label in self.label_paths:
 
             for ob in ET.parse(label).getroot().iter('object'):
+                try:
+                    clazz = int(ob.find('name').text)
+                    xmin, ymin, xmax, ymax = [int(v.text) for v in ob.find('bndbox')]
 
-                clazz = int(ob.find('name').text)
-                xmin, ymin, xmax, ymax = [int(v.text) for v in ob.find('bndbox')]
-
-                if clazz in class_score:
-                    class_score[clazz][0] += 1
-                    class_score[clazz][1] += xmin
-                    class_score[clazz][2] += ymin
-                    class_score[clazz][3] += xmax
-                    class_score[clazz][4] += ymax
-                else:
-                    class_score[clazz] = [clazz, xmin, ymin, xmax, ymax]
+                    if clazz in class_score:
+                        class_score[clazz][0] += 1
+                        class_score[clazz][1] += xmin
+                        class_score[clazz][2] += ymin
+                        class_score[clazz][3] += xmax
+                        class_score[clazz][4] += ymax
+                    else:
+                        class_score[clazz] = [clazz, xmin, ymin, xmax, ymax]
+                except Exception:
+                    self.logger.log_err('Fehlerhafter Klassen bezeichner in: ' + label)
 
         for c in class_score:
             s = class_score[c][0]
@@ -221,9 +228,11 @@ class Generator():
         if i in self.labelmap:
             return self.labelmap[i]
         else:
+            self.logger.log_err(str(i) + " - kein Klassenbezeichner gefunden.")
             return "Unknown"
 
     def createCSVOverview(self, zipf=None):
+        self.logger.log_sep("CSV Statistik erstellen")
 
         with open(os.path.join(self.PATH, "Summary.csv"), 'w', newline='') as out:
             writer = csv.writer(out, delimiter=',', quoting=csv.QUOTE_NONE)
@@ -235,9 +244,12 @@ class Generator():
         if zipf:
             zipf.write(os.path.join(self.PATH, 'Summary.csv'), 'Summary.csv', zipfile.ZIP_DEFLATED)
             os.remove(os.path.join(self.PATH, 'Summary.csv'))
-        print("CSV Overview successfully created.")
+        self.logger.log(os.path.join(self.PATH, 'Summary.csv') + " CSV Statisktik zur ZIP hinzugefügt.")
+
+        self.logger.log_sep()
 
     def createPieChart(self, zipf=None):
+        self.logger.log_sep("IMG Statistik erstellen")
         fig, ax = plt.subplots(figsize=(72, 36), subplot_kw=dict(aspect="equal"))
 
         data = [self.class_score[x][0] for x in self.class_score if x in self.classes]
@@ -266,9 +278,13 @@ class Generator():
             zipf.write(os.path.join(self.PATH, 'Class Distribution.png'), 'Class Distribution.png',
                        zipfile.ZIP_DEFLATED)
             os.remove(os.path.join(self.PATH, 'Class Distribution.png'))
-        print("Pie chart successfully created.")
+        self.logger.log(os.path.join(self.PATH, 'Class Distribution.png') + " Diagramm zur ZIP hinzugefügt.")
+
+        self.logger.log_sep()
 
     def createDataSetZIP(self):
+        self.logger.log_sep("ZIP Datenset erstellen")
+
         with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
 
             for label in self.label_paths:
@@ -276,25 +292,32 @@ class Generator():
                 img = xml[:-3] + "png"
 
                 for ob in ET.parse(label).getroot().iter('object'):
-                    c = int(ob.find('name').text)
-                    if c in self.classes:
-                        img_added = []
-                        zip_file.write(label, os.path.join('Labels', xml), zipfile.ZIP_DEFLATED)
-                        for p, dirs, files in os.walk(self.PATH):
-                            if img in files:
-                                if img not in img_added:
-                                    zip_file.write(os.path.join(p, img), os.path.join("Images", img),
-                                                   zipfile.ZIP_DEFLATED)
-                                    img_added.append(img)
-                                else:
-                                    break
-                        break
+                    try:
+                        c = int(ob.find('name').text)
+                        if c in self.classes:
+                            img_added = []
+                            zip_file.write(label, os.path.join('Labels', xml), zipfile.ZIP_DEFLATED)
+                            for p, dirs, files in os.walk(self.PATH):
+                                if img in files:
+                                    if img not in img_added:
+                                        zip_file.write(os.path.join(p, img), os.path.join("Images", img),
+                                                       zipfile.ZIP_DEFLATED)
+                                        img_added.append(img)
+                                    else:
+                                        break
+                            break
+                    except Exception:
+                        self.logger.log_err('Fehlerhafter Klassen bezeichner in: ' + label)
+
 
             self.createPieChart(zip_file)
             self.createCSVOverview(zip_file)
             self.createCSVLabelMap(zip_file)
 
+        self.logger.log_sep()
+
     def createCSVLabelMap(self, zipf=None):
+        self.logger.log_sep("Train.csv erstellen")
         xml_list = []
 
         for label in self.label_paths:
@@ -320,6 +343,8 @@ class Generator():
         xml_df.to_csv(os.path.join(self.PATH, 'train.csv'), index=None)
 
         if zipf:
-            zipf.write(os.path.join(self.PATH, 'train.csv'), 'labels.csv', zipfile.ZIP_DEFLATED)
+            zipf.write(os.path.join(self.PATH, 'train.csv'), 'train.csv', zipfile.ZIP_DEFLATED)
             os.remove(os.path.join(self.PATH, 'train.csv'))
-        print("Label CSV successfully created.")
+        self.logger.log(os.path.join(self.PATH, 'train.csv') + " Train CSV zur ZIP hinzugefügt.")
+
+        self.logger.log_sep()
