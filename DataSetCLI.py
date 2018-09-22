@@ -376,9 +376,9 @@ def main(argv):
                 classes = range(1, 155)
             for c in classes:
                 gen = Generator(args.p, [c])
-                name = 'Classe_' + str(c) + '.zip'
+                name = 'Class_' + str(c) + '.zip'
                 gen.createDataSetZIP(name=name, sep=True)
-                print(name +  " wurde erzeught!")
+                print(name +  "- wurde erzeught!")
 
     if args.csv:
         generator.createCSVOverview()
