@@ -1,8 +1,7 @@
-import sys, os, argparse
+import sys, os, argparse, csv, zipfile
 import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 import numpy as np
-import csv, zipfile
 import pandas as pd
 
 
