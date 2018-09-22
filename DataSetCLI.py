@@ -269,8 +269,11 @@ class Generator():
             os.remove(os.path.join(self.PATH, 'Class Distribution.png'))
         print("Pie chart successfully created.")
 
-    def createDataSetZIP(self):
-        with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
+    def createDataSetZIP(self, name = None, sep = None):
+        if not name:
+            name = 'DataSet.zip'
+
+        with zipfile.ZipFile(os.path.join(self.PATH, name), 'w') as zip_file:
 
             for label in self.label_paths:
                 xml = label.split(os.path.sep)[-1]
@@ -290,10 +293,10 @@ class Generator():
                                 else:
                                     break
                         break
-
-            self.createPieChart(zip_file)
-            self.createCSVOverview(zip_file)
-            self.createCSVLabelMap(zip_file)
+            if not sep:
+                self.createPieChart(zip_file)
+                self.createCSVOverview(zip_file)
+                self.createCSVLabelMap(zip_file)
 
     def createCSVLabelMap(self, zipf=None):
         xml_list = []
@@ -351,6 +354,7 @@ def main(argv):
     parser.add_argument('--stat_img', help='Klassen Statistik als png erstellen.', dest='img', action='store_true')
     parser.add_argument('--del_img', help='Bilder ohne Label löschen.', dest='delete', action='store_true')
     parser.add_argument('--train_csv', help='Train.csv für Object Detection erstellen.', dest='train', action='store_true')
+    parser.add_argument('--sep_class', help='ZIP für jeden Klasse einzelnd erstellen.', dest='sep', action='store_true')
 
     args = parser.parse_args(argv)
 
@@ -363,7 +367,18 @@ def main(argv):
         generator.deleteEmptyImages()
 
     if args.zip:
-        generator.createDataSetZIP()
+        if not args.sep:
+            generator.createDataSetZIP()
+        else:
+            if args.c:
+                classes = args.c
+            else:
+                classes = range(1, 155)
+            for c in classes:
+                gen = Generator(args.p, [c])
+                name = 'Classe_' + str(c) + '.zip'
+                gen.createDataSetZIP(name=name, sep=True)
+                print(name +  " wurde erzeught!")
 
     if args.csv:
         generator.createCSVOverview()
