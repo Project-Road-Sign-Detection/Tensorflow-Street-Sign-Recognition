@@ -214,7 +214,6 @@ class Generator():
             class_score[c][2] = round(class_score[c][2] / s, 2)
             class_score[c][3] = round(class_score[c][3] / s, 2)
             class_score[c][4] = round(class_score[c][4] / s, 2)
-
         return class_score
 
     def _getClassName(self, i):
