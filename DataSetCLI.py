@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-
+import random
 
 class Generator():
 
@@ -267,13 +267,31 @@ class Generator():
             os.remove(os.path.join(self.PATH, 'Class Distribution.png'))
         print("Pie chart successfully created.")
 
-    def createDataSetZIP(self, name = None, sep = None):
+    def createDataSetZIP(self, name = None, sep = None, split = None):
         if not name:
             name = 'DataSet.zip'
 
-        with zipfile.ZipFile(os.path.join(self.PATH, name), 'w') as zip_file:
+        if split:
+            t = int(len(self.label_paths) / 100 * split)
+            print("t - ",t)
+            train = range(t)
+            random.shuffle(list(train))
+        else:
+            train = range(len(self.label_paths))
 
-            for label in self.label_paths:
+
+        with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
+
+            for i in range(len(self.label_paths)):
+                if split:
+                    if i in train:
+                        folder = 'Train/'
+                    else:
+                        folder = 'Test/'
+                else:
+                    folder = ''
+
+                label = self.label_paths[i]
                 xml = label.split(os.path.sep)[-1]
                 img = xml[:-3] + "png"
 
@@ -281,16 +299,18 @@ class Generator():
                     c = int(ob.find('name').text)
                     if c in self.classes:
                         img_added = []
-                        zip_file.write(label, os.path.join('Labels', xml), zipfile.ZIP_DEFLATED)
+                        zip_file.write(label, os.path.join(folder + 'Labels', xml), zipfile.ZIP_DEFLATED)
+
                         for p, dirs, files in os.walk(self.PATH):
                             if img in files:
                                 if img not in img_added:
-                                    zip_file.write(os.path.join(p, img), os.path.join("Images", img),
-                                                   zipfile.ZIP_DEFLATED)
+                                    zip_file.write(os.path.join(p, img), os.path.join(folder + "Images", img),
+                                                       zipfile.ZIP_DEFLATED)
                                     img_added.append(img)
                                 else:
                                     break
                         break
+
             if not sep:
                 self.createPieChart(zip_file)
                 self.createCSVOverview(zip_file)
@@ -353,6 +373,7 @@ def main(argv):
     parser.add_argument('--del_img', help='Bilder ohne Label löschen.', dest='delete', action='store_true')
     parser.add_argument('--train_csv', help='Train.csv für Object Detection erstellen.', dest='train', action='store_true')
     parser.add_argument('--sep_class', help='ZIP für jeden Klasse einzelnd erstellen.', dest='sep', action='store_true')
+    parser.add_argument('--split', help="Train/Test Split - % für Train", dest='split', type=int)
 
     args = parser.parse_args(argv)
 
@@ -366,7 +387,11 @@ def main(argv):
 
     if args.zip:
         if not args.sep:
-            generator.createDataSetZIP()
+            if args.split:
+                print(args.split)
+                generator.createDataSetZIP(split=args.split)
+            else:
+                generator.createDataSetZIP()
         else:
             if args.c:
                 classes = args.c
@@ -375,8 +400,12 @@ def main(argv):
             for c in classes:
                 gen = Generator(args.p, [c])
                 name = 'Class_' + str(c) + '.zip'
-                gen.createDataSetZIP(name=name, sep=True)
-                print(name +  "- wurde erzeught!")
+                if args.split:
+                    gen.createDataSetZIP(name=name, sep=True, split=args.split)
+                    print(name +  "- wurde erzeught!")
+                else:
+                    gen.createDataSetZIP(name=name, sep=True)
+                    print(name + "- wurde erzeught!")
 
     if args.csv:
         generator.createCSVOverview()

@@ -6,6 +6,7 @@ import csv
 import zipfile
 import pandas as pd
 from GuiLogger import GuiLogger
+from random import shuffle
 
 class Generator():
 
@@ -282,12 +283,28 @@ class Generator():
 
         self.logger.log_sep()
 
-    def createDataSetZIP(self):
+    def createDataSetZIP(self, split = None):
         self.logger.log_sep("ZIP Datenset erstellen")
+        if split:
+            t = int(len(self.label_paths) / 100 * split)
+            print("t - ", t)
+            train = range(t)
+            shuffle(list(train))
+        else:
+            train = range(len(self.label_paths))
 
         with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
 
-            for label in self.label_paths:
+            for i in range(len(self.label_paths)):
+                if split:
+                    if i in train:
+                        folder = 'Train/'
+                    else:
+                        folder = 'Test/'
+                else:
+                    folder = ''
+
+                label = self.label_paths[i]
                 xml = label.split(os.path.sep)[-1]
                 img = xml[:-3] + "png"
 
@@ -296,11 +313,12 @@ class Generator():
                         c = int(ob.find('name').text)
                         if c in self.classes:
                             img_added = []
-                            zip_file.write(label, os.path.join('Labels', xml), zipfile.ZIP_DEFLATED)
+                            zip_file.write(label, os.path.join(folder + 'Labels', xml), zipfile.ZIP_DEFLATED)
+
                             for p, dirs, files in os.walk(self.PATH):
                                 if img in files:
                                     if img not in img_added:
-                                        zip_file.write(os.path.join(p, img), os.path.join("Images", img),
+                                        zip_file.write(os.path.join(p, img), os.path.join(folder + "Images", img),
                                                        zipfile.ZIP_DEFLATED)
                                         img_added.append(img)
                                     else:
@@ -308,7 +326,6 @@ class Generator():
                             break
                     except Exception:
                         self.logger.log_err('Fehlerhafter Klassen bezeichner in: ' + label)
-
 
             self.createPieChart(zip_file)
             self.createCSVOverview(zip_file)
