@@ -206,7 +206,7 @@ class Generator():
                     class_score[clazz][3] += xmax
                     class_score[clazz][4] += ymax
                 else:
-                    class_score[clazz] = [clazz, xmin, ymin, xmax, ymax]
+                    class_score[clazz] = [1, xmin, ymin, xmax, ymax]
 
         for c in class_score:
             s = class_score[c][0]
