@@ -280,7 +280,7 @@ class Generator():
             train = range(len(self.label_paths))
 
 
-        with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
+        with zipfile.ZipFile(os.path.join(self.PATH, name), 'w') as zip_file:
 
             for i in range(len(self.label_paths)):
                 if split:
