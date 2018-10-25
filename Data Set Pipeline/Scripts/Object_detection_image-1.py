@@ -108,20 +108,25 @@ vis_util.visualize_boxes_and_labels_on_image_array(
     category_index,
     use_normalized_coordinates=True,
     line_thickness=8,
-    min_score_thresh=0.80)
+    min_score_thresh=0.20)
 
 # All the results have been drawn on image. Now display the image.
 cv2.imshow('Object detector', image)
+
+img = cv2.imread(IMAGE_NAME)
+height, width, _ = img.shape
+
+print (*boxes[0][1])
+print (img.shape)
 
 with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',', escapechar='|')
     writer.writerow(['Class', 'Wahrscheinlichkeit', 'XMin', 'YMin', 'XMax', 'YMax'])
 
     for i in range(len(scores)):
-        writer.writerow([classes[i],scores[i],*boxes[0][i]])
+        writer.writerow([classes[i],scores[i],*boxes[0]*width, *boxes[i]*height])
+
+
 
 # Press any key to close the image
 cv2.waitKey(0)
-
-# Clean up
-cv2.destroyAllWindows()
