@@ -91,7 +91,7 @@ num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 # expand image dimensions to have shape: [1, None, None, 3]
 # i.e. a single-column array, where each item in the column has the pixel RGB value
 image = cv2.imread(PATH_TO_IMAGE)
-width, height, channels = image.shape
+height, width, channels = image.shape
 image_expanded = np.expand_dims(image, axis=0)
 
 # Perform the actual detection by running the model with the image as input
@@ -120,7 +120,7 @@ with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
 
     for i in range(len(scores)):
         if scores[0][i] > THRESHHOLD:
-            writer.writerow([classes[0][i],scores[0][i],int(boxes[0][i][0] * width),int(boxes[0][i][1] *height),
+            writer.writerow([classes[0][i],scores[0][i], int(boxes[0][i][0] * width), int(boxes[0][i][1] * height),
                              int(boxes[0][i][2] * width),int(boxes[0][i][3] * height)])
 
 # Press any key to close the image
