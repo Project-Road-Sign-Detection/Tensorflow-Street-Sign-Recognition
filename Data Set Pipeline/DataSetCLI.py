@@ -226,7 +226,7 @@ class Generator():
 
         with open(os.path.join(self.PATH, "Summary.csv"), 'w', newline='') as out:
             writer = csv.writer(out, delimiter=',', quoting=csv.QUOTE_NONE)
-            writer.writerow(['Class ID', 'Class Name', 'Frequenzy', 'Avg Xmin', 'Avg Ymin', 'Avg Xmax', 'Avg Ymax'])
+            writer.writerow(['Class ID', 'Class Name', 'Frequency', 'Avg Xmin', 'Avg Ymin', 'Avg Xmax', 'Avg Ymax'])
             for c in self.class_score:
                 if c in self.classes:
                     writer.writerow([c, self._getClassName(c), *self.class_score[c]])
@@ -402,10 +402,10 @@ def main(argv):
                 name = 'Class_' + str(c) + '.zip'
                 if args.split:
                     gen.createDataSetZIP(name=name, sep=True, split=args.split)
-                    print(name +  "- wurde erzeught!")
+                    print(name +  "- wurde erzeugt!")
                 else:
                     gen.createDataSetZIP(name=name, sep=True)
-                    print(name + "- wurde erzeught!")
+                    print(name + "- wurde erzeugt!")
 
     if args.csv:
         generator.createCSVOverview()
