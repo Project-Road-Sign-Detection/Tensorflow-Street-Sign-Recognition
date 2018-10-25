@@ -118,7 +118,7 @@ with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer.writerow(['Class', 'Wahrscheinlichkeit', 'XMin', 'YMin', 'XMax', 'YMax'])
 
     for i in range(len(scores)):
-        writer.writerow([classes[i],scores[i],*boxes[i]])
+        writer.writerow([classes[i],scores[i],*boxes[0][i]])
 
 # Press any key to close the image
 cv2.waitKey(0)
