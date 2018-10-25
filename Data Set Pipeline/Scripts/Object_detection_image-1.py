@@ -33,7 +33,7 @@ import csv
 # Name of the directory containing the object detection module we're using
 MODEL_NAME = 'inference_graph'
 IMAGE_NAME = '00057.png'
-
+THRESHHOLD = 0.80
 # Grab path to current working directory
 CWD_PATH = os.getcwd()
 
@@ -91,6 +91,7 @@ num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 # expand image dimensions to have shape: [1, None, None, 3]
 # i.e. a single-column array, where each item in the column has the pixel RGB value
 image = cv2.imread(PATH_TO_IMAGE)
+width, height, channels = image.shape
 image_expanded = np.expand_dims(image, axis=0)
 
 # Perform the actual detection by running the model with the image as input
@@ -108,7 +109,7 @@ vis_util.visualize_boxes_and_labels_on_image_array(
     category_index,
     use_normalized_coordinates=True,
     line_thickness=8,
-    min_score_thresh=0.80)
+    min_score_thresh=THRESHHOLD)
 
 # All the results have been drawn on image. Now display the image.
 cv2.imshow('Object detector', image)
@@ -118,7 +119,9 @@ with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer.writerow(['Class', 'Wahrscheinlichkeit', 'XMin', 'YMin', 'XMax', 'YMax'])
 
     for i in range(len(scores)):
-        writer.writerow([classes[i],scores[i],*boxes[0][i]])
+        if scores[i] > THRESHHOLD:
+            writer.writerow([classes[i],scores[i],int(boxes[0][i][0] * width),int(boxes[0][i][1] *height),
+                             int(boxes[0][i][2] * width),int(boxes[0][i][3] * height)])
 
 # Press any key to close the image
 cv2.waitKey(0)
