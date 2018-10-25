@@ -116,12 +116,12 @@ cv2.imshow('Object detector', image)
 
 with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_NONE)
-    writer.writerow(['Class', 'Wahrscheinlichkeit', 'XMin', 'YMin', 'XMax', 'YMax'])
+    writer.writerow(['Class', 'Wahrscheinlichkeit', 'YMin', 'XMin', 'YMax', 'XMax'])
 
     for i in range(len(scores)):
         if scores[0][i] > THRESHHOLD:
-            writer.writerow([classes[0][i],scores[0][i], int(boxes[0][i][0] * width), int(boxes[0][i][1] * height),
-                             int(boxes[0][i][2] * width),int(boxes[0][i][3] * height)])
+            writer.writerow([classes[0][i],scores[0][i], int(boxes[0][i][0] * height), int(boxes[0][i][1] * width),
+                             int(boxes[0][i][2] * height),int(boxes[0][i][3] * width)])
 
 # Press any key to close the image
 cv2.waitKey(0)
