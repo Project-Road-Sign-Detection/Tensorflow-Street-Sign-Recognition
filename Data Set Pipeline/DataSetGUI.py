@@ -48,6 +48,10 @@ class DSGView(QWidget):
         self.dataset_btn.clicked.connect(self.on_dataset)
         self.grid.addWidget(self.dataset_btn, 7, 7, 1, 1, Qt.AlignBottom)
 
+        self.sep_box = QCheckBox("Seperate Klassen?",self)
+        self.sep_box.setEnabled(False)
+        self.grid.addWidget(self.sep_box,7, 7, 1, 1, Qt.AlignTop)
+
         self.delete_images_btn = QPushButton("Leere Bilder löschen")
         self.delete_images_btn.setEnabled(False)
         self.delete_images_btn.clicked.connect(self.on_delete_img)
@@ -82,18 +86,65 @@ class DSGView(QWidget):
         self.tree_view.setVisible(True)
         self.create_stat_btn.setEnabled(True)
         self.train_btn.setEnabled(True)
-
+        self.sep_box.setEnabled(True)
         self._update_path(self.directory)
 
     def on_dataset(self):
+        classes= []
+        if self.sep_box.checkState():
+            sep = True
+        else:
+            sep = False
+
         if self.selectedPathes:
             for p in self.selectedPathes:
                 if os.path.isdir(p):
-                    self.generator = Generator(p, self.logger)
-                    self.generator.createDataSetZIP()
+
+                    text, ok = QInputDialog.getText(self, 'Klassenauswahl', 'Klassen mir Kommata getrennt angeben. Range = 1-10. Leer = Alle Klassen')
+                    if ok:
+                        if not text:
+                            classes = [x for x in range(155)]
+                        else:
+                            inputs = text.split(",")
+                            for i in inputs:
+                                if "-" in i:
+                                    r = i.split("-")
+                                    for x in range(int(r[0]), int(r[1]) + 1):
+                                        classes.append(x)
+                                else:
+                                    classes.append(int(i))
+
+                    if not sep:
+                        self.generator = Generator(p, self.logger, classes=classes)
+                        self.generator.createDataSetZIP()
+                    else:
+                        for c in classes:
+                            name = "Klasse_"+str(c)+".zip"
+                            self.generator = Generator(p, self.logger, classes=c)
+                            self.generator.createDataSetZIP(name=name)
         else:
-            self.generator = Generator(self.directory, self.logger)
-            self.generator.createDataSetZIP()
+            text, ok = QInputDialog.getText(self, 'Klassenauswahl', 'Klassen mir Kommata getrennt angeben. Range = 1-10. Leer = Alle Klassen')
+            if ok:
+                if not text:
+                    classes = [x for x in range(155)]
+                else:
+                    inputs = text.split(",")
+                    for i in inputs:
+                        if "-" in i:
+                            r = i.split("-")
+                            for x in range(int(r[0]), int(r[1]) + 1):
+                                classes.append(x)
+                        else:
+                            classes.append(int(i))
+            if not sep:
+                self.generator = Generator(self.directory, self.logger, classes=classes)
+                self.generator.createDataSetZIP()
+            else:
+                for c in classes:
+                    name = "Klasse_" + str(c) + ".zip"
+                    self.generator = Generator(self.directory, self.logger, classes=[c])
+                    print("test")
+                    self.generator.createDataSetZIP(name=name)
 
     def on_delete_img(self):
         deleted = []

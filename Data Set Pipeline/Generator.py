@@ -283,8 +283,12 @@ class Generator():
 
         self.logger.log_sep()
 
-    def createDataSetZIP(self, split = None):
-        self.logger.log_sep("ZIP Datenset erstellen")
+    def createDataSetZIP(self, split=None, name=None):
+        if not name:
+            name = 'DataSet.zip'
+
+        self.logger.log_sep(name +" erstellen")
+
         if split:
             t = int(len(self.label_paths) / 100 * split)
             print("t - ", t)
@@ -293,7 +297,7 @@ class Generator():
         else:
             train = range(len(self.label_paths))
 
-        with zipfile.ZipFile(os.path.join(self.PATH, "DataSet.zip"), 'w') as zip_file:
+        with zipfile.ZipFile(os.path.join(self.PATH, name), 'w') as zip_file:
 
             for i in range(len(self.label_paths)):
                 if split:
@@ -327,7 +331,6 @@ class Generator():
                     except Exception:
                         self.logger.log_err('Fehlerhafter Klassen bezeichner in: ' + label)
 
-            self.createPieChart(zip_file)
             self.createCSVOverview(zip_file)
             self.createCSVLabelMap(zip_file)
 
