@@ -32,7 +32,7 @@ import csv
 
 # Name of the directory containing the object detection module we're using
 MODEL_NAME = 'inference_graph'
-IMAGE_NAME = '00057.png'
+IMAGE_NAME = '00114.png'
 
 # Grab path to current working directory
 CWD_PATH = os.getcwd()
@@ -114,7 +114,7 @@ vis_util.visualize_boxes_and_labels_on_image_array(
 cv2.imshow('Object detector', image)
 
 with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
-    writer = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_NONE)
+    writer = csv.writer(csv_file, delimiter=',', escapechar='|')
     writer.writerow(['Class', 'Wahrscheinlichkeit', 'XMin', 'YMin', 'XMax', 'YMax'])
 
     for i in range(len(scores)):
