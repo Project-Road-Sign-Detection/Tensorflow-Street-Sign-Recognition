@@ -291,7 +291,6 @@ class Generator():
 
         if split:
             t = int(len(self.label_paths) / 100 * split)
-            print("t - ", t)
             train = range(t)
             shuffle(list(train))
         else:

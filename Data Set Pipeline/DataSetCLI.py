@@ -273,7 +273,6 @@ class Generator():
 
         if split:
             t = int(len(self.label_paths) / 100 * split)
-            print("t - ",t)
             train = range(t)
             random.shuffle(list(train))
         else:
@@ -388,7 +387,6 @@ def main(argv):
     if args.zip:
         if not args.sep:
             if args.split:
-                print(args.split)
                 generator.createDataSetZIP(split=args.split)
             else:
                 generator.createDataSetZIP()
