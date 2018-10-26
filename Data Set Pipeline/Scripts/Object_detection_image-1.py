@@ -118,7 +118,7 @@ with open(IMAGE_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_NONE)
     writer.writerow(['Class', 'Wahrscheinlichkeit', 'YMin', 'XMin', 'YMax', 'XMax'])
 
-    for i in range(len(scores)):
+    for i in range(len(scores[0])):
         if scores[0][i] > THRESHHOLD:
             writer.writerow([classes[0][i],scores[0][i], int(boxes[0][i][0] * height), int(boxes[0][i][1] * width),
                              int(boxes[0][i][2] * height),int(boxes[0][i][3] * width)])
