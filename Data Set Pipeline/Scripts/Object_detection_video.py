@@ -22,6 +22,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import sys
+import csv
 
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
@@ -33,7 +34,7 @@ from utils import visualization_utils as vis_util
 # Name of the directory containing the object detection module we're using
 MODEL_NAME = 'inference_graph'
 VIDEO_NAME = 'test.mov'
-
+THRESHHOLD = 0.8
 # Grab path to current working directory
 CWD_PATH = os.getcwd()
 
@@ -90,12 +91,11 @@ num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 # Open video file
 video = cv2.VideoCapture(PATH_TO_VIDEO)
 
-with open(_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
+with open(VIDEO_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter=';', quoting=csv.QUOTE_NONE)
     writer.writerow(['Timestamp', 'Class', 'Wahrscheinlichkeit', 'YMin', 'XMin', 'YMax', 'XMax'])
     width = video.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)   # float
     height = video.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT) # float
-    max_boxes_to_draw = boxes.shape[0]
 
     while(video.isOpened()):
 
@@ -118,13 +118,12 @@ with open(_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
             category_index,
             use_normalized_coordinates=True,
             line_thickness=8,
-            min_score_thresh=0.10)
+            min_score_thresh=THRESHHOLD)
 
-        
-        for i in range(min(max_boxes_to_draw, boxes.shape[0])):
-            if scores is None or scores[0][i] > 0.10:
-                box = tuple(boxes[0][i].tolist())
-                writer.writerow([video.get(cv2.CAP_PROP_POS_MSEC), classes[0][i], scores[0][i],int(box[0]*height),int(box[1]*width),int(box[2]*height),int(box[3]*width)])
+        for i in range(len(scores[0])):
+            if scores[0][i] > THRESHHOLD:
+                writer.writerow([video.get(cv2.CAP_PROP_POS_MSEC),classes[0][i], scores[0][i], int(boxes[0][i][0] * height), int(boxes[0][i][1] * width),
+                                 int(boxes[0][i][2] * height), int(boxes[0][i][3] * width)])
 
         # All the results have been drawn on the frame, so it's time to display it.
         cv2.imshow('Object detector', frame)
