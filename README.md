@@ -51,6 +51,9 @@ As not every class holds the same amount of objects it becomes necessary to impl
 
 ##### Zoom
 
+<img width="1555" alt="bildschirmfoto 2018-11-19 um 12 48 06" src="https://user-images.githubusercontent.com/34514578/48686910-9a206b00-ebf9-11e8-8268-483f30d155f4.png">
+
+
 ##### Mirroring
 
 <img width="1554" alt="bildschirmfoto 2018-11-19 um 12 39 35" src="https://user-images.githubusercontent.com/34514578/48686793-e4551c80-ebf8-11e8-96bb-dccca2f8bc4a.png">
