@@ -82,9 +82,21 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 <img width="1555" alt="bildschirmfoto 2018-11-19 um 12 38 58" src="https://user-images.githubusercontent.com/34514578/48686791-e15a2c00-ebf8-11e8-877b-895ef13dcaf5.png">
 
 # 2. Neural Networks
-Before
+
+
 
 # 3. Using TensorFlow
+
+For the object detection model Google's tensorflow was used running on 2 GeForce GTX 1080Ti with each 11GB of Vram. The processor is an AMD and 48GB of Ram. For the installation and set-up of the environment the tutorial by EdjeElectronics [4] was used. The tutorial gives a great introduction and makes it easy to set up the anaconda environment and tensorflow itself. Furthermore it includes already all the necessary iformation on how to use your own dataset with TensorFlow. This includes generating the tf.record files, labelmap.pbtxt, ... 
+For the training it is recommended to check the Tensorflow Model Zoo [5] on GitHub and apply the models to your own code. For this project Faster_RCNN_InceptionV2_COCO seemed to be the best fit. If everything was set up correctly the training is started by the following command in the anaconda prompt:
+
+    python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco_A.config --num_clones=2 --ps_tasks=1
+    
+It should be emphasised that the last two commands `--num_clones=2 --ps_tasks=1` are necessary for the use with multiple GPUs. The "num_clones" states the number of GPUs in use. If only one GPU is used the command for the anaconda prompt is 
+
+    python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco_A.config
+
+
 
 
 
@@ -96,4 +108,5 @@ Before
 [1]http://benchmark.ini.rub.de/?section=gtsdb&subsection=news
 [2]https://github.com/tzutalin/labelImg
 [3]https://augmentor.readthedocs.io
-
+[4]https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10/blob/master/README.md
+[5]https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
