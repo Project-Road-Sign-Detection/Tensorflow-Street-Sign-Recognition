@@ -122,7 +122,7 @@ with open(VIDEO_NAME[:-4]+'.csv', 'w', newline='') as csv_file:
 
         for i in range(len(scores[0])):
             if scores[0][i] > THRESHHOLD:
-                writer.writerow([video.get(cv2.CAP_PROP_POS_MSEC),classes[0][i], scores[0][i], int(boxes[0][i][0] * height), int(boxes[0][i][1] * width),
+                writer.writerow([video.get(cv2.CAP_PROP_POS_FRAMES),classes[0][i], scores[0][i], int(boxes[0][i][0] * height), int(boxes[0][i][1] * width),
                                  int(boxes[0][i][2] * height), int(boxes[0][i][3] * width)])
 
         # All the results have been drawn on the frame, so it's time to display it.
