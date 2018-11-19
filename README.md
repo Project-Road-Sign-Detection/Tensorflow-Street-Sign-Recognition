@@ -44,37 +44,40 @@ Another function is the generation of CSV files
 
 As not every class holds the same amount of objects it becomes necessary to implement a data augmentation process. With this existing pictures are alternated in such way that these can be used again in the learning process. For the augmentation the Python library "augmentor.py" [3] by the MIT is used. The tool has a large amount of functions implemented of which those useable for road sign detection are shown below. Some of these are only applayble to certain classes.
 
-##### Rotating
+#### Rotating
 
 Rotation is a simple function that allows to generate variance in the dataset. It needs to be ensured that the roatation is not to strong but somewhere between 10 and -10 degrees. Elsewise traffic signs may have a different meaning. This is also the reason why the rotate function of tensorflow can't be used as it only allows rotations at 90, 180 and 270 degrees.
 
 <img width="1512" alt="bildschirmfoto 2018-11-19 um 12 35 27" src="https://user-images.githubusercontent.com/34514578/48686783-d2737980-ebf8-11e8-922f-c64c057fc0cb.png">
 
-##### Zoom
+#### Zoom
 
 The Zoom function is rather simple and lays focus on a different part of the picture. Yet the size of the image reamins the same. The main advantage lays in a variance of quality and the relative strong change of objects in the overall image. 
 
 <img width="1555" alt="bildschirmfoto 2018-11-19 um 12 48 06" src="https://user-images.githubusercontent.com/34514578/48686910-9a206b00-ebf9-11e8-8268-483f30d155f4.png">
 
 
-##### Mirroring
+#### Mirroring
 
 The mirroring function is needed if objects are either symmetric or a mirrored version exists. In the picture below for example the amount of blue signs with an arrow to the bottom-right is high in the dataset while the mirrored version with the arrow to the bottom-left is very low. Mirroring equalizes this in the entire dataset.
 
 <img width="1554" alt="bildschirmfoto 2018-11-19 um 12 39 35" src="https://user-images.githubusercontent.com/34514578/48686793-e4551c80-ebf8-11e8-96bb-dccca2f8bc4a.png">
 
-##### Shearing
+#### Shearing
 
-Shearing 
+Shearing is useable for many different directions. It includes horizontal and vertical shearing as well as shearing to each of the corners. The function augments the data in such way as it would result if another picture was taken seconds later. It also makes the trained model more robust towards different angles.
 
 <img width="1550" alt="bildschirmfoto 2018-11-19 um 12 40 54" src="https://user-images.githubusercontent.com/34514578/48686796-e7500d00-ebf8-11e8-84bc-b5a3cef1b912.png">
 
-##### Contrast
+#### Contrast
+
+The function is very simple as it just alters the contrast of the image. The idea behind this is again improving the robustness of the trained model. Different contrasts occure usually in different lightning situations and the image quality of the used camera.
 
 <img width="1489" alt="bildschirmfoto 2018-11-19 um 12 37 33" src="https://user-images.githubusercontent.com/34514578/48686784-d69f9700-ebf8-11e8-9310-a25ff12050d3.png">
 
-##### Elastic Distortion
+#### Elastic Distortion
 
+Elastic distortion is a very interesting alteration of the pictures. As it can be seen on the right picture the object's corners, such as the large direction sign, are warped. This happens usually while driving when the car hits potholes or experiences other sudden and strong movements. Due to the image generation line by line the image gets distorted.
 
 <img width="1555" alt="bildschirmfoto 2018-11-19 um 12 38 58" src="https://user-images.githubusercontent.com/34514578/48686791-e15a2c00-ebf8-11e8-877b-895ef13dcaf5.png">
 
@@ -82,6 +85,8 @@ Shearing
 Before
 
 # 3. Using TensorFlow
+
+
 
 # 4. Results
 
