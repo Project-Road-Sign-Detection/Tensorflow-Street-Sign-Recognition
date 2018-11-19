@@ -46,20 +46,26 @@ As not every class holds the same amount of objects it becomes necessary to impl
 
 ##### Rotating
 
+Rotation is a simple function that allows to generate variance in the dataset. It needs to be ensured that the roatation is not to strong but somewhere between 10 and -10 degrees. Elsewise traffic signs may have a different meaning. This is also the reason why the rotate function of tensorflow can't be used as it only allows rotations at 90, 180 and 270 degrees.
 
 <img width="1512" alt="bildschirmfoto 2018-11-19 um 12 35 27" src="https://user-images.githubusercontent.com/34514578/48686783-d2737980-ebf8-11e8-922f-c64c057fc0cb.png">
 
 ##### Zoom
+
+The Zoom function is rather simple and lays focus on a different part of the picture. Yet the size of the image reamins the same. The main advantage lays in a variance of quality and the relative strong change of objects in the overall image. 
 
 <img width="1555" alt="bildschirmfoto 2018-11-19 um 12 48 06" src="https://user-images.githubusercontent.com/34514578/48686910-9a206b00-ebf9-11e8-8268-483f30d155f4.png">
 
 
 ##### Mirroring
 
+The mirroring function is needed if objects are either symmetric or a mirrored version exists. In the picture below for example the amount of blue signs with an arrow to the bottom-right is high in the dataset while the mirrored version with the arrow to the bottom-left is very low. Mirroring equalizes this in the entire dataset.
+
 <img width="1554" alt="bildschirmfoto 2018-11-19 um 12 39 35" src="https://user-images.githubusercontent.com/34514578/48686793-e4551c80-ebf8-11e8-96bb-dccca2f8bc4a.png">
 
 ##### Shearing
 
+Shearing 
 
 <img width="1550" alt="bildschirmfoto 2018-11-19 um 12 40 54" src="https://user-images.githubusercontent.com/34514578/48686796-e7500d00-ebf8-11e8-84bc-b5a3cef1b912.png">
 
