@@ -71,3 +71,6 @@ Before
 [1]http://benchmark.ini.rub.de/?section=gtsdb&subsection=news
 [2]https://github.com/tzutalin/labelImg
 [3]https://augmentor.readthedocs.io
+
+
+![img_3912](https://user-images.githubusercontent.com/34514578/48686015-afdf6180-ebf4-11e8-8d4f-e18202415dfc.JPG)
