@@ -46,17 +46,28 @@ As not every class holds the same amount of objects it becomes necessary to impl
 
 ##### Rotating
 
+
+<img width="1512" alt="bildschirmfoto 2018-11-19 um 12 35 27" src="https://user-images.githubusercontent.com/34514578/48686783-d2737980-ebf8-11e8-922f-c64c057fc0cb.png">
+
 ##### Zoom
 
 ##### Mirroring
 
+<img width="1554" alt="bildschirmfoto 2018-11-19 um 12 39 35" src="https://user-images.githubusercontent.com/34514578/48686793-e4551c80-ebf8-11e8-96bb-dccca2f8bc4a.png">
+
 ##### Shearing
 
+
+<img width="1550" alt="bildschirmfoto 2018-11-19 um 12 40 54" src="https://user-images.githubusercontent.com/34514578/48686796-e7500d00-ebf8-11e8-84bc-b5a3cef1b912.png">
+
 ##### Contrast
+
+<img width="1489" alt="bildschirmfoto 2018-11-19 um 12 37 33" src="https://user-images.githubusercontent.com/34514578/48686784-d69f9700-ebf8-11e8-9310-a25ff12050d3.png">
 
 ##### Elastic Distortion
 
 
+<img width="1555" alt="bildschirmfoto 2018-11-19 um 12 38 58" src="https://user-images.githubusercontent.com/34514578/48686791-e15a2c00-ebf8-11e8-877b-895ef13dcaf5.png">
 
 # 2. Neural Networks
 Before
@@ -72,5 +83,3 @@ Before
 [2]https://github.com/tzutalin/labelImg
 [3]https://augmentor.readthedocs.io
 
-
-![img_3912](https://user-images.githubusercontent.com/34514578/48686015-afdf6180-ebf4-11e8-8d4f-e18202415dfc.JPG)
