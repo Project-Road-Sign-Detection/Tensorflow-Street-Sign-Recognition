@@ -24,7 +24,13 @@ The Images were labeled with the open-source tool LabelImg for Windows [2]. In o
 
 ### Analyzing the Labels
 
-As real life traffic situations are used as input of the process the dataset needs to be reviewed and analyzed regularly. Therefore another tool was developed (DataSetCLI.py) to manage the large amounts of data. The tool offers multiple options for the database.
+As real life traffic situations are used as input of the process the dataset needs to be reviewed and analyzed regularly. Therefore another tool was developed (DataSetCLI.py) to manage the large amounts of data. The tool offers multiple options for the database. All fuctions require a path to the root folder of your data, which should contain only images and xml-label files.
+
+    .
+    ├── root Data               #Root folder containing the data
+        ├── images              #images location folder
+        ├── labels              #xml location folder
+        
 
 ##### Export of Classes
 
@@ -39,6 +45,7 @@ Another function is the generation of CSV files
 ##### Genera
 
 ##### Remove Empty Images
+Validates if the dataset contains images without a corresponding xml label file to references it and deletes them. The ulterior motive is to remove images without any street sign or object present, that might have slipped through the labeling process.
 
 ### Data Augmentation
 
