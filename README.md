@@ -94,7 +94,7 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 
 # 3. Using TensorFlow
 
-For the object detection model Google's tensorflow was used running on 2 GeForce GTX 1080Ti with each 11GB of Vram. The processor is an AMD and 48GB of Ram. For the installation and set-up of the environment the tutorial by EdjeElectronics [4] was used. The tutorial gives a great introduction and makes it easy to set up the anaconda environment and tensorflow itself. Furthermore it includes already all the necessary iformation on how to use your own dataset with TensorFlow. This includes generating the tf.record files, labelmap.pbtxt, ... 
+For the object detection model Google's tensorflow was used running on 2 GeForce GTX 1080Ti with each 11GB of Vram. The processor is an Intel 8700K and 32GB of Ram. For the installation and set-up of the environment the tutorial by EdjeElectronics [4] was used. The tutorial gives a great introduction and makes it easy to set up the anaconda environment and tensorflow itself. Furthermore it includes already all the necessary iformation on how to use your own dataset with TensorFlow. This includes generating the tf.record files, labelmap.pbtxt, ... 
 For the training it is recommended to check the Tensorflow Model Zoo [5] on GitHub and apply the models to your own code. For this project Faster_RCNN_InceptionV2_COCO seemed to be the best fit. If everything was set up correctly the training is started by the following command in the anaconda prompt:
 
     python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco_A.config --num_clones=2 --ps_tasks=1
