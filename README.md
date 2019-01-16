@@ -90,7 +90,19 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 
 # 2. Neural Networks
 
+For this, two neural networks were taken into account. "Faster_R-CNN_Inception_V2_COCO" and "SSD_Mobilenet_COCO" both neural networks are pretrained on the COCO dataset that includes thousands of pictures with labels from everyday situations, such as humans, cars, trees, airplanes, etc. (http://cocodataset.org/#home)[6]. Yet both differ strongly.
 
+## Faster R-CNN
+
+The Faster R-CNN is an evolution of the convolutional neural network approach. In order to accelerate this, a focus was layed on the faster recognition of areas of interest in an image. This focus on the regions (that is what the "R" stands for in R-CNN) made it much easier to check a limited amount of objects in a picture. This was then acclerated with "Fast-" and "Faster R-CNN". For further reedings I recommend the papers of Ross Girshick as one of the main people behind it. Faster R-CNN is able to read data in basically every size which doesn't make it neccessary to crop the pictures before or in Tensorflow.
+
+The advantage of this neural network is, that Faster R-CNN is pretty accurate als with small amounts of data. Yet it still takes about 50ms to analyze an image. Dpending on the use case this might be too slow, such as for live deployment in a car.
+
+## SSD_Mobilenet_COCO
+
+SSD_Mobilenet is focused stronger on fast image detection. This means, that the results are less reliable but it can be deployed on live feeds at 30fps and also has much lower hardware requirements. All in all the findings were fairly weak especially with small amounts of data it was almost impossible to generate reliable output.
+
+For SSD_Mobilenet the file dimensions are limited to 300x300 images. If changes are made to this in Tensorflow, the model doesn't detect anything, which can be very frustrating. Though it is possible to use the same workflow as described before. Various tools allow to cut out the pixel within the bounding boxes of the labels. With this the 300x300 image size is not as much of a restiction anymore. 
 
 # 3. Using TensorFlow
 
@@ -103,11 +115,9 @@ It should be emphasised that the last two commands `--num_clones=2 --ps_tasks=1`
 
     python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco_A.config
 
-
-
-
-
 # 4. Results
+
+
 
 # 5. Outlook
 
@@ -117,3 +127,4 @@ It should be emphasised that the last two commands `--num_clones=2 --ps_tasks=1`
 [3]https://augmentor.readthedocs.io
 [4]https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10/blob/master/README.md
 [5]https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+[6](http://cocodataset.org/#home)
