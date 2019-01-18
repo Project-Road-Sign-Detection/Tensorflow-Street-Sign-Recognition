@@ -90,7 +90,7 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 
 ### Database
 
-With this a fairly large database was generated including 50.000 labels on approximatly 35.000 images. As the objects, that were to be labeled, changed later on, the amount of labels will keep growing rapidly. This will hapen though on the existing image database of 35.000 samples.An example of the database is presented below. <img width="1489" alt="bildschirmfoto 2018-11-19 um 12 37 33" src="https://user-images.githubusercontent.com/34514578/51392416-e7747680-1b6f-11e9-9e9c-ab6787addda5.jpg"
+With this a fairly large database was generated including 50.000 labels on approximatly 35.000 images. As the objects, that were to be labeled, changed later on, the amount of labels will keep growing rapidly. This will hapen though on the existing image database of 35.000 samples.An example of the database is presented below. ![datenbank](https://user-images.githubusercontent.com/34514578/51392416-e7747680-1b6f-11e9-9e9c-ab6787addda5.jpg)
 
 # 2. Neural Networks
 
@@ -120,20 +120,39 @@ For the training it is recommended to check the Tensorflow Model Zoo [5] on GitH
 It should be emphasised that the last two commands `--num_clones=2 --ps_tasks=1` are necessary for the use with multiple GPUs. The "num_clones" states the number of GPUs in use. If only one GPU is used the command for the anaconda prompt is 
 
     python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_coco_A.config
+    
+The time to train depends strongly on the model. In this case the training times took approximatly 10-12 days. In the chart it can be seen that after a strong decline in the beginning the loss maintained at a low level. The following image shows the training process of the road sign detetcion. ![graphsign](https://user-images.githubusercontent.com/34514578/51392448-ff4bfa80-1b6f-11e9-9ae7-4d1e097a1d3f.jpg)
+
+All in all three models were trained. One for road sign detection, one for object detection and a combination of those two. The result can be seen below. The first image shows the result of the road sign detection, while the second image shows the outcome of the object detection. ![sign2](https://user-images.githubusercontent.com/34514578/51392471-15f25180-1b70-11e9-9564-4a990036e6eb.jpg) ![object1](https://user-images.githubusercontent.com/34514578/51392461-0bd05300-1b70-11e9-94ca-04511c1355e7.jpg)
 
 # 4. Results
 
-  
-![datenbank](https://user-images.githubusercontent.com/34514578/51392416-e7747680-1b6f-11e9-9e9c-ab6787addda5.jpg)
-![falsepositive](https://user-images.githubusercontent.com/34514578/51392446-fe1acd80-1b6f-11e9-8c5b-a344e45467b3.jpg)
-![graphsign](https://user-images.githubusercontent.com/34514578/51392448-ff4bfa80-1b6f-11e9-9ae7-4d1e097a1d3f.jpg)
-![highthreshold](https://user-images.githubusercontent.com/34514578/51392451-007d2780-1b70-11e9-8e64-c87991d4304e.jpg)
+The results need to be distinguished in multiple ways. Such as accuracy and the kind of failures that occure. All in all we reached an accuracy of 85% of the road signs close to the sign. Which is well above the initial expectations for this research topic. The failures that occure in object-detection can be seperated into tour different modes. Those will be described quickly, as a starting point for further readings into the subject.
+
+#### True-Positive
+
+The object detector correctly identifies an object. Hence, this is the result we are seeking for and no failure occured. In the case of this object detection this result became more reliable the closer the road sign was. ![sign1](https://user-images.githubusercontent.com/34514578/51392469-1559bb00-1b70-11e9-8799-46f090e8c65e.jpg)
+
+
+#### False-Positive
+
+A false positive detection appears when a sign is marged incorrectly. Incorrectly maked signs usually occure when signs are too small, so for example in a large distance or an insufficient amount of labels are saved in the database. ![falsepositive](https://user-images.githubusercontent.com/34514578/51392446-fe1acd80-1b6f-11e9-8c5b-a344e45467b3.jpg). This is especially important, as completely wrong detections can be hard to understand and to solve in many cases and sometimes even relate to issues within the label-database. Luckily this model doesn't suffer much from it. Usually high thresholds also ensure the limitation of true-negative detections. 
+
+#### True-Negative
+
+True negative detections are by definition not very spectacular, yet important. In this case the detector correctly doesn't give out any kind of result.
+
+#### False-Negative
+
+The opposite to true-negative are false-negative detetcions. In this case a sign or object is just missed by the detector. Also often relating to low amounts of labels in the dataset. In this particular case we also see the limuts of the faster-RCNN as shown in the picture below. While the "stop"-sign on the right and the "bus-stop"-sign are detected correctly, the "stop"-sign at the upper edge of the image is missed by the object detector. In this case the stop-sign is not at a common place but at a very unsual space. The RCNN misses that due to its focus on common sizes and positions for the initial choice of regions to be analyzed afterwards.
+
 ![nostop](https://user-images.githubusercontent.com/34514578/51392458-0a068f80-1b70-11e9-8178-c0395abd82e1.jpg)
-![object1](https://user-images.githubusercontent.com/34514578/51392461-0bd05300-1b70-11e9-94ca-04511c1355e7.jpg)
-![sign1](https://user-images.githubusercontent.com/34514578/51392469-1559bb00-1b70-11e9-8799-46f090e8c65e.jpg)
-![sign2](https://user-images.githubusercontent.com/34514578/51392471-15f25180-1b70-11e9-9564-4a990036e6eb.jpg)
 
 # 5. Outlook
+
+The object-detection still needs further improvements in many cases. It is yet not accurate enough nor does the speed match our demands. As this was archived within a term-paper, it is still a strong start for further improvements. Those will include the database as well as tests with other neural networks such as YOLO.
+
+For further questions please refer to our LinkedIn profiles (that you can find in our profiles), contact us here on Github or leave a comment. 
 
 # List of Refrences
 [1]http://benchmark.ini.rub.de/?section=gtsdb&subsection=news
