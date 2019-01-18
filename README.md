@@ -42,7 +42,7 @@ Another function is the generation of CSV files
 
 ##### Generate Diagram for Dataset
 
-##### Genera
+
 
 ##### Remove Empty Images
 Validates if the dataset contains images without a corresponding xml label file to references it and deletes them. The ulterior motive is to remove images without any street sign or object present, that might have slipped through the labeling process.
@@ -88,6 +88,10 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 
 <img width="1555" alt="bildschirmfoto 2018-11-19 um 12 38 58" src="https://user-images.githubusercontent.com/34514578/48686791-e15a2c00-ebf8-11e8-877b-895ef13dcaf5.png">
 
+### Database
+
+With this a fairly large database was generated including 50.000 labels on approximatly 35.000 images. As the objects, that were to be labeled, changed later on, the amount of labels will keep growing rapidly. This will hapen though on the existing image database of 35.000 samples.
+
 # 2. Neural Networks
 
 For this, two neural networks were taken into account. "Faster_R-CNN_Inception_V2_COCO" and "SSD_Mobilenet_COCO" both neural networks are pretrained on the COCO dataset that includes thousands of pictures with labels from everyday situations, such as humans, cars, trees, airplanes, etc. (http://cocodataset.org/#home)[6]. Yet both differ strongly.
@@ -103,6 +107,8 @@ The advantage of this neural network is, that Faster R-CNN is pretty accurate al
 SSD_Mobilenet is focused stronger on fast image detection. This means, that the results are less reliable but it can be deployed on live feeds at 30fps and also has much lower hardware requirements. All in all the findings were fairly weak especially with small amounts of data it was almost impossible to generate reliable output.
 
 For SSD_Mobilenet the file dimensions are limited to 300x300 images. If changes are made to this in Tensorflow, the model doesn't detect anything, which can be very frustrating. Though it is possible to use the same workflow as described before. Various tools allow to cut out the pixel within the bounding boxes of the labels. With this the 300x300 image size is not as much of a restiction anymore. 
+
+For this project the Faster-RCNN was chosen as the goal was develop a road-sign detection that reliably analyses a large amount of existing video data in order to improve the database that comes with it. Hence, the focus layed more on quality than on speed.
 
 # 3. Using TensorFlow
 
