@@ -160,4 +160,4 @@ For further questions please refer to our LinkedIn profiles (that you can find i
 [3]https://augmentor.readthedocs.io
 [4]https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10/blob/master/README.md
 [5]https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
-[6](http://cocodataset.org/#home)
+[6] http://cocodataset.org/#home
