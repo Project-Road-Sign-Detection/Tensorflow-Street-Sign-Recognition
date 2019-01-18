@@ -90,7 +90,7 @@ Elastic distortion is a very interesting alteration of the pictures. As it can b
 
 ### Database
 
-With this a fairly large database was generated including 50.000 labels on approximatly 35.000 images. As the objects, that were to be labeled, changed later on, the amount of labels will keep growing rapidly. This will hapen though on the existing image database of 35.000 samples.
+With this a fairly large database was generated including 50.000 labels on approximatly 35.000 images. As the objects, that were to be labeled, changed later on, the amount of labels will keep growing rapidly. This will hapen though on the existing image database of 35.000 samples.An example of the database is presented below. <img width="1489" alt="bildschirmfoto 2018-11-19 um 12 37 33" src="https://user-images.githubusercontent.com/34514578/51392416-e7747680-1b6f-11e9-9e9c-ab6787addda5.jpg"
 
 # 2. Neural Networks
 
@@ -123,7 +123,15 @@ It should be emphasised that the last two commands `--num_clones=2 --ps_tasks=1`
 
 # 4. Results
 
-
+  
+![datenbank](https://user-images.githubusercontent.com/34514578/51392416-e7747680-1b6f-11e9-9e9c-ab6787addda5.jpg)
+![falsepositive](https://user-images.githubusercontent.com/34514578/51392446-fe1acd80-1b6f-11e9-8c5b-a344e45467b3.jpg)
+![graphsign](https://user-images.githubusercontent.com/34514578/51392448-ff4bfa80-1b6f-11e9-9ae7-4d1e097a1d3f.jpg)
+![highthreshold](https://user-images.githubusercontent.com/34514578/51392451-007d2780-1b70-11e9-8e64-c87991d4304e.jpg)
+![nostop](https://user-images.githubusercontent.com/34514578/51392458-0a068f80-1b70-11e9-8178-c0395abd82e1.jpg)
+![object1](https://user-images.githubusercontent.com/34514578/51392461-0bd05300-1b70-11e9-94ca-04511c1355e7.jpg)
+![sign1](https://user-images.githubusercontent.com/34514578/51392469-1559bb00-1b70-11e9-8799-46f090e8c65e.jpg)
+![sign2](https://user-images.githubusercontent.com/34514578/51392471-15f25180-1b70-11e9-9564-4a990036e6eb.jpg)
 
 # 5. Outlook
 
