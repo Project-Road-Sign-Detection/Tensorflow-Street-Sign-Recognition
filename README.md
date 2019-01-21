@@ -38,10 +38,11 @@ This function allows the export of single or multiple classes from the database 
 
 ##### Generate CSV-File for Dataset
 
-Another function is the generation of CSV files 
+Another function is the generation of CSV files. CSV files are used as the basic input file for most training processes, containing the path of the images files together with their label and ROI. The fuctions selects all images with the selected classes and searches for the corresponding xml label file to write one entry into the resulting csv.
 
 ##### Generate Diagram for Dataset
 
+A very basic matplotlib graph to visualize the different classes exsisting in the dataset, together with their frequenzy relative to the whole dataset. These plots can be great to gather an initial intuition of how the dataset is structured but become fast confusing when too many different classes are present in the dataset.
 
 
 ##### Remove Empty Images
